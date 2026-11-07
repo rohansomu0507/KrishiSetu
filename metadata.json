@@ -1,0 +1,6 @@
+{
+  "name": "KrishiSetu AI - Mandi Demand & Harvest Planning Assistant",
+  "description": "AI-powered agricultural harvest planning assistant combining 7-14 day mandi price forecasts, arrival volume dynamics, transport freight, and spoilage risks to optimize farmer net realization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

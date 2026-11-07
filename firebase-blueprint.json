@@ -1,0 +1,239 @@
+{
+  "entities": {
+    "Applicant": {
+      "title": "Applicant",
+      "description": "Farmer registration and harvest application for mandi allocation",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique applicant document identifier"
+        },
+        "farmerName": {
+          "type": "string",
+          "description": "Full name of the farmer"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Contact mobile number"
+        },
+        "farmerId": {
+          "type": "string",
+          "description": "Kisan Credit / e-NAM Farmer Registration ID"
+        },
+        "villageDistrict": {
+          "type": "string",
+          "description": "Farmer village and district origin"
+        },
+        "state": {
+          "type": "string",
+          "description": "State of the farm"
+        },
+        "cropName": {
+          "type": "string",
+          "description": "Crop harvested"
+        },
+        "variety": {
+          "type": "string",
+          "description": "Variety or cultivar"
+        },
+        "quantityTonnes": {
+          "type": "number",
+          "description": "Expected harvest tonnage"
+        },
+        "harvestDate": {
+          "type": "string",
+          "description": "Expected harvest date"
+        },
+        "allocatedMandiId": {
+          "type": "string",
+          "description": "Assigned destination mandi ID"
+        },
+        "allocatedMandiName": {
+          "type": "string",
+          "description": "Assigned destination mandi name"
+        },
+        "allocatedDispatchDate": {
+          "type": "string",
+          "description": "Scheduled gate arrival date"
+        },
+        "estimatedNetRealization": {
+          "type": "number",
+          "description": "Calculated expected net in-pocket realization in INR"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["registered", "approved", "in_transit", "settled"],
+          "description": "Application lifecycle status"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Submission ISO timestamp"
+        }
+      },
+      "required": [
+        "farmerName",
+        "phoneNumber",
+        "cropName",
+        "quantityTonnes",
+        "harvestDate",
+        "allocatedMandiName",
+        "status"
+      ]
+    },
+    "MandiStore": {
+      "title": "MandiStore",
+      "description": "Mandi yard and storage facility profile with capacity and operational tariffs",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Mandi store record ID"
+        },
+        "mandiId": {
+          "type": "string",
+          "description": "Associated APMC Mandi code"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the APMC or Cold Store facility"
+        },
+        "district": {
+          "type": "string",
+          "description": "District location"
+        },
+        "state": {
+          "type": "string",
+          "description": "State jurisdiction"
+        },
+        "storageType": {
+          "type": "string",
+          "enum": ["cold_storage", "aerated_chawl", "apmc_shed", "warehouse"],
+          "description": "Storage technology and preservation method"
+        },
+        "totalCapacityTonnes": {
+          "type": "number",
+          "description": "Total storage capacity in metric tonnes"
+        },
+        "availableCapacityTonnes": {
+          "type": "number",
+          "description": "Currently unreserved storage capacity"
+        },
+        "dailyStorageRatePerQuintal": {
+          "type": "number",
+          "description": "Holding charge per quintal per day in INR"
+        },
+        "unloadingFeePerQuintal": {
+          "type": "number",
+          "description": "Labour and hamali charge per quintal in INR"
+        },
+        "mandiCessPercent": {
+          "type": "number",
+          "description": "Statutory APMC market cess percentage"
+        },
+        "contactOfficer": {
+          "type": "string",
+          "description": "APMC secretary or store manager"
+        },
+        "contactPhone": {
+          "type": "string",
+          "description": "Direct contact phone number"
+        },
+        "operatingHours": {
+          "type": "string",
+          "description": "Auction and gate intake timings"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update ISO timestamp"
+        }
+      },
+      "required": [
+        "name",
+        "district",
+        "state",
+        "storageType",
+        "totalCapacityTonnes",
+        "dailyStorageRatePerQuintal"
+      ]
+    },
+    "AdminHistory": {
+      "title": "AdminHistory",
+      "description": "Persistent audit trail and administrative log of applicant approvals, mandi modifications, and market transactions",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique audit log entry identifier"
+        },
+        "actionType": {
+          "type": "string",
+          "enum": [
+            "applicant_approval",
+            "applicant_status_change",
+            "applicant_registration",
+            "mandi_store_updated",
+            "mandi_capacity_override",
+            "dispatch_manifest_issued",
+            "market_tariff_update",
+            "system_audit"
+          ],
+          "description": "Type of administrative action executed"
+        },
+        "entityId": {
+          "type": "string",
+          "description": "ID of the target entity"
+        },
+        "entityName": {
+          "type": "string",
+          "description": "Name or title of the target entity"
+        },
+        "adminUser": {
+          "type": "string",
+          "description": "Email or identifier of the administrative officer"
+        },
+        "summary": {
+          "type": "string",
+          "description": "Plain language human readable change summary"
+        },
+        "previousValue": {
+          "type": "string",
+          "description": "Value prior to mutation"
+        },
+        "newValue": {
+          "type": "string",
+          "description": "Updated value after mutation"
+        },
+        "channel": {
+          "type": "string",
+          "description": "Originating interface or portal"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Execution ISO timestamp"
+        }
+      },
+      "required": [
+        "actionType",
+        "entityName",
+        "adminUser",
+        "summary",
+        "timestamp"
+      ]
+    }
+  },
+  "firestore": {
+    "/applicants/{applicantId}": {
+      "schema": "Applicant",
+      "description": "Database of registered farmer applicants, harvest plans, and mandi allocations"
+    },
+    "/mandi_stores/{storeId}": {
+      "schema": "MandiStore",
+      "description": "Database of APMC mandi facilities, cold stores, capacities, and fee structures"
+    },
+    "/admin_history/{logId}": {
+      "schema": "AdminHistory",
+      "description": "Persistent audit log history of all administrative decisions, applicant approvals, and mandi updates"
+    }
+  }
+}
